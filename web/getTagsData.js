@@ -2,7 +2,7 @@ var Global = Global || {};
 /**
  * 解析TAG的JSON结构
  * @param {object} 传入的TAG结构JSON字符串
- * @returns 解析好的一个对象。
+ * @returns 解析好的一个数组。
  */
 Global.getTagsData = function(obj) {
     var keys1 = Object.keys(obj);
