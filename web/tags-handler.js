@@ -75,5 +75,19 @@ Global.getTagsForSearch = function(s, obj) {
             temp_arr = [];
         }
     };
-    return t_tags;
+    var target_tags = t_tags.clearRepetition();
+    target_tags = this._removeBannedTags(target_tags);
+    return target_tags;
+}
+
+Global._removeBannedTags = function(dirt_list){
+    var banned_tags = Global.getPreference('banned-tags');
+    var clean_list = [];
+    for(var i = 0; i < dirt_list.length; i++){
+        var tag = dirt_list[i];
+        if(!banned_tags.contains(tag)) {
+            clean_list.push(tag);
+        }
+    };
+    return clean_list;
 }
