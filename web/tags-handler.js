@@ -48,6 +48,12 @@ Global.convertTagStruct = function(obj) {
     return temp_obj;
 }
 
+/**
+ * 获取用于搜索的TAG数组。
+ * @param {array} s 用户端输入的TAG数组
+ * @param {object} obj 用 convertTagStruct 方法转换过的对象
+ * @returns 按照树状结构生成的用于搜索文章的TAG数组。
+ */
 Global.getTagsForSearch = function(s, obj) {
     var temp_arr = s || null;
     var temp_arr2 = [];
