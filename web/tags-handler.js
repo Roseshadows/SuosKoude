@@ -39,7 +39,7 @@ Global.convertTagStruct = function(obj) {
         }
         returns:
         temp_obj = {
-            '*':['modern','school/collage','business','it','finance','killer','original']
+            '*':['modern','original']
             'modern':['scholl/collage','business','killer'],
             'business':['it','finance'],
         }
