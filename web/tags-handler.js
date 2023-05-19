@@ -49,5 +49,25 @@ Global.convertTagStruct = function(obj) {
 }
 
 Global.getTagsForSearch = function(s, obj) {
-
+    var temp_arr = s || null;
+    var temp_arr2 = [];
+    var t_tags = temp_arr;
+    var keys = Object.keys(obj);
+    while(temp_arr && JSON.stringify(temp_arr) != '[]') {
+        temp_arr2 = [];
+        for(var i = 0; i < temp_arr.length; i++) {
+            keys.forEach((item)=>{
+                if(item == temp_arr[i]) {
+                    temp_arr2 = temp_arr2.concat(obj[item]);
+                    t_tags = t_tags.concat(obj[item]);
+                }
+            });
+        }
+        if(JSON.stringify(temp_arr2) != '[]'){
+            temp_arr = temp_arr2;
+        } else {
+            temp_arr = [];
+        }
+    };
+    return t_tags;
 }
