@@ -1,7 +1,7 @@
 var Global = Global || {};
 /**
  * 解析TAG的JSON结构
- * @param {object} obj 传入的TAG结构JSON字符串
+ * @param {object} obj 传入的JSON数据文件中TAG结构JSON字符串
  * @returns 解析好的一个对象。
  */
 Global.convertTagStruct = function(obj) {
@@ -107,3 +107,54 @@ Global._seperateMultiNamedTags = function(arr) {
     }
     return arr;
 };
+
+/**
+ * 获取所有有别名的TAG的对象。
+ * @param {object} obj 传入的JSON数据文件中TAG结构JSON字符串
+ * @returns 解析好的一个对象。
+ */
+Global.getMultiNamedTags = function(obj) {
+    var temp_obj = {};
+    var split_char = '/';
+    var keys1 = Object.keys(obj);
+    for(var i = 0; i < keys1.length; i++){
+        var k1 = keys1[i];
+        var item1 = obj[k1];
+        if(k1.includes(split_char)) temp_obj[k1] = k1.split(split_char);
+        if(typeof item1 == 'object') {
+            var keys2 = Object.keys(item1);
+            for(var j = 0; j < keys2.length; j++) {
+                var k2 = keys2[j];
+                var item2 = item1[k2];
+                if(k2.includes(split_char)) temp_obj[k2] = k2.split(split_char);
+                if(typeof item2 == 'object') {
+                    var keys3 = Object.keys(item2);
+                    keys3.forEach((k3)=>{
+                        if(k3.includes(split_char)) temp_obj[k3] = k3.split(split_char);
+                    })
+                }
+            }
+        }
+    };
+    /*
+        example:
+        obj = {
+            "modern/contemporary":{
+                "school/collage":"",
+                "business":{
+                    "it":"",
+                    "finance":""
+                },
+                "killer":""
+            },
+            "original":""
+        }
+        returns:
+        temp_obj = {
+            'modern/contemporary':['modern','contemporary']
+            'school/collage':['scholl','collage']
+        }
+        Note that the max depth of each branch is 3.
+    */
+    return temp_obj;
+}
