@@ -76,6 +76,7 @@ Global.getTagsForSearch = function(s, obj) {
         }
     };
     var target_tags = t_tags.clearRepetition();
+    target_tags = this._seperateMultiNamedTags(target_tags);
     target_tags = this._removeBannedTags(target_tags);
     return target_tags;
 }
@@ -91,3 +92,18 @@ Global._removeBannedTags = function(dirt_list){
     };
     return clean_list;
 }
+
+Global._seperateMultiNamedTags = function(arr) {
+    for(var i = 0; i < arr.length; i++){
+        var e = arr[i];
+        if(e.indexOf('/') != -1) {
+            var temp_arr = e.split('/');
+            temp_arr.forEach((item,index)=>{
+                arr.splice(i+index,0,item);
+            });
+            arr.splice(i+temp_arr.length,1);
+            i += temp_arr.length - 1;
+        }
+    }
+    return arr;
+};
