@@ -25,7 +25,7 @@ Global._onSearchEnd = function() {
 Global._initializeDataForSearch = function() {
     this._search_keywords = [];
     this._search_author = '';
-    this._search_tags = [];
+    this._search_tags = JSON.stringify(this._search_tags) != '[]' ? this._search_tags : [];
     this._search_subject = '';   // type
     this._search_role = [];
     this._search_type = '';    // length
@@ -58,11 +58,6 @@ Global._loadClientSearchConditions = function(){
     this._search_is_yuhuang_only = iyo == 'unlimited' ? '*' : (iyo == 'yes' ? true : false);
     var iyhy = $('#settings-is-yuhuangyu').find("option:selected").val();
     this._search_is_yuhuangyu = iyhy == 'unlimited' ? '*' : (iyhy == 'yes' ? true : false);
-    this._loadClientTags();
-};
-
-Global._loadClientTags = function() {
-    
 };
 
 Global._showVisualSearchSymbol = function() {
