@@ -53,11 +53,11 @@ Global._loadClientSearchConditions = function(){
                 return '*';
         }
     })();
-    this._search_ending = $('#settings-ending').find("option:selected").val().toUpperCase();
-    var iyo = $('#settings-is-yuhuang-only').find("option:selected").val();
+    this._search_ending = $('#settings-ending').find("option:selected").val().toUpperCase() || '*';
+    var iyo = $('#settings-is-yuhuang-only').find("option:selected").val() || 'no';
     this._search_is_yuhuang_only = iyo == 'unlimited' ? '*' : (iyo == 'yes' ? true : false);
-    var iyhy = $('#settings-is-yuhuangyu').find("option:selected").val();
-    this._search_is_yuhuangyu = iyhy == 'unlimited' ? '*' : (iyhy == 'yes' ? true : false);
+    var iyhy = $('#settings-is-yuhuangyu').find("option:selected").val() || 'no';
+    this._search_is_yuhuangyu = iyhy == 'yes' ? true : false;
 };
 
 Global._showVisualSearchSymbol = function() {
