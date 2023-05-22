@@ -16,8 +16,6 @@ $(document).ready(()=> {
             $("span.clear-text").css("visibility",'hidden');
         }
     });
-    $("#tags-selection").on('click','span',function(){
-    });
     $('span.tags-list-btn').click(()=>{
         Global.getTags((tags)=>{
             tags = Global.convertTagStruct(tags);
@@ -33,7 +31,7 @@ $(document).ready(()=> {
                 temp_str += '<span class="selectable-tag'+s_a+'"><i class="fa fa'+i_a+'-circle-o"></i><span>'+item+'</span></span>';
             });
             $.confirm({
-                title: '选择TAG',
+                title: 'TAG列表',
                 content: '<div id="tags-selection">'+temp_str+'</div>',
                 boxWidth: "80%",
                 useBootstrap: false,
@@ -44,10 +42,9 @@ $(document).ready(()=> {
                         text: '确认',
                         action: function () {
                             if(Global.__temp_tags && JSON.stringify(Global.__temp_tags) != '[]') {
-                                // 待改!!!
                                 Global._search_tags = Global._search_tags || [];
-                                Global.__temp_tags = Global.__temp_tags.clearRepetition();
-                                Global._search_tags = Global._search_tags.concat(Global.__temp_tags);
+                                Global._search_tags = Global._search_tags.concat(Global.__temp_tags).clearRepetition();
+                                $('span.tags-input-area').html('');
                                 Global.__temp_tags.forEach((item)=>{
                                     $('span.tags-input-area').append('<span class="shown-tag"><i class="fa fa-tag"></i><span>'+item+'</span></span>')
                                 })
