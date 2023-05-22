@@ -45,16 +45,17 @@ $(document).ready(()=> {
                                 Global._search_tags = Global._search_tags || [];
                                 Global._search_tags = Global._search_tags.concat(Global.__temp_tags).clearRepetition();
                                 $('span.tags-input-area').html('');
-                                Global.__temp_tags.forEach((item)=>{
+                                Global._search_tags.forEach((item)=>{
                                     $('span.tags-input-area').append('<span class="shown-tag"><i class="fa fa-tag"></i><span>'+item+'</span></span>')
-                                })
+                                });
+                                Global.__temp_tags = [];
                             }
                         }
                     },
                     cancel: {
                         text: '关闭',
                         action: function () {
-                            // console.log('no')
+                            Global.__temp_tags = [];
                         }
                     }
                 },
