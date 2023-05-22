@@ -52,9 +52,10 @@ Global.convertTagStruct = function(obj) {
  * 获取用于搜索的TAG数组。
  * @param {array} s 用户端输入的TAG数组
  * @param {object} obj 用 convertTagStruct 方法转换过的对象
+ * @param {boolean} isForSelection 是否用于用户端TAG选择功能
  * @returns 按照树状结构生成的用于搜索文章的TAG数组。
  */
-Global.getTagsForSearch = function(s, obj) {
+Global.getTagsForSearch = function(s, obj, isForSelection) {
     var temp_arr = s || null;
     var temp_arr2 = [];
     var t_tags = temp_arr;
@@ -76,6 +77,8 @@ Global.getTagsForSearch = function(s, obj) {
         }
     };
     var target_tags = t_tags.clearRepetition();
+    if(isForSelection) target_tags = this._convertMultiNamedTagsToSingle(target_tags);
+    // 注意以下两行代码的顺序
     target_tags = this._seperateMultiNamedTags(target_tags);
     target_tags = this._removeBannedTags(target_tags);
     return target_tags;
@@ -157,4 +160,16 @@ Global.getMultiNamedTags = function(obj) {
         Note that the max depth of each branch is 3.
     */
     return temp_obj;
+}
+
+/**
+ * 将TAG数组中所有拥有别名的名字转换为单个名字。主要用于用户端TAG选择功能。
+ * @param {array} arr 用 getTagsForSearch 获取到的TAG数组
+ */
+Global._convertMultiNamedTagsToSingle = function(arr) {
+    var temp_arr = [];
+    arr.forEach((item)=>{
+        temp_arr.push(item.includes('/') ? item.split('/')[0] : item);
+    });
+    return temp_arr;
 }

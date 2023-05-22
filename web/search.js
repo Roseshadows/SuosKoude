@@ -26,7 +26,7 @@ Global._initializeDataForSearch = function() {
     this._search_keywords = [];
     this._search_author = '';
     this._search_tags = JSON.stringify(this._search_tags) != '[]' ? this._search_tags : [];
-    this._search_subject = '';   // type
+    // this._search_subject = '';   // type
     this._search_role = [];
     this._search_type = '';    // length
     this._search_status = '';
@@ -39,7 +39,7 @@ Global._loadClientSearchConditions = function(){
     var search_text = $('input.search-area').val();
     this._search_keywords = search_text.split(' ');
     this._search_author = $('li.author input').val();
-    this._search_subject = $('li.type input').val();
+    // this._search_subject = $('li.type input').val();
     this._search_role = [$('li.role input.role-yu').val(),$('li.role input.role-huang').val()];
     this._search_type = $('#settings-length').find("option:selected").val();
     var status = $('#settings-status').find("option:selected").val();
