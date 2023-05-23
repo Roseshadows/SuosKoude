@@ -20,6 +20,8 @@ Global._processSearch = function() {
 Global._onSearchEnd = function() {
     this._searching = false;
     this._hideVisualSearchSymbol();
+    this._appendResult();
+    this._generatePagination();
 };
 
 Global._initializeDataForSearch = function() {
@@ -65,6 +67,14 @@ Global._showVisualSearchSymbol = function() {
 };
 
 Global._hideVisualSearchSymbol = function() {
+    
+};
+
+Global._appendResult = function() {
+    
+};
+
+Global._generatePagination = function() {
     
 };
 
