@@ -9,6 +9,7 @@ Global.search = function(){
 Global._onSearchStart = function() {
     this._searching = true;
     this._hideSearchNotice();
+    this._clearPrevResult();
     this._showVisualSearchSymbol();
     this._initializeDataForSearch();
     this._loadClientSearchConditions();
@@ -69,6 +70,11 @@ Global._hideSearchNotice = function() {
     $('div.no-result').css('display','none');
 };
 
+Global._clearPrevResult = function() {
+    $('div.result-pages').html('');
+    $('ul.pagination').html('');
+};
+
 Global._showVisualSearchSymbol = function() {
     $('div.searching-symbol').css('display','block');
 };
@@ -83,11 +89,11 @@ Global._appendResult = function() {
         var page_num = Math.floor(this._search_target_url / columns_in_one_page);
         for(var i = 0; i < page_num; i++) {
             var p = i + 1;
-            $('div.search-result-area').append('<div id="pg'+p+'"></div>');
+            $('div.result-pages').append('<div id="pg'+p+'"></div>');
         }
         this._search_target_url.forEach((item, index)=>{
-            var curPage = Math.floor(index / columns_in_one_page) + 1;
-            $('div#pg'+curPage).append('<div class="article-item"></div>')
+            var p = Math.floor(index / columns_in_one_page) + 1;
+            $('div#pg'+p).append('<div class="article-item"></div>')
         })
         this._generatePagination(page_num);
     } else {
@@ -96,7 +102,33 @@ Global._appendResult = function() {
 };
 
 Global._generatePagination = function(page_num) {
-    
+    this._curPage = 1;
+    $('ul.pagination').append('<li><a href="javascript:Global.__prevPage('+page_num+')">«</a></li>');
+    for(var i = 0; i < page_num; i++) {
+        var page = i + 1;
+        $('ul.pagination').append('<li><a href="javascript:Global.__pageTo('+page+')">'+page+'</a></li>');
+    }
+    $('ul.pagination').append('<li><a href="javascript:Global.__nextPage('+page_num+')">»</a></li>');
+};
+
+Global.__pageTo = function(page) {
+    $('div.pages div').css('display','none');
+    $('div.pages div#pg'+page).css('display','block');
+    $('ul li').removeClass('active');
+    $('ul li').eq(page).addClass('active');
+    this._curPage = page;
+};
+
+Global.__prevPage = function(page_num) {
+    var newPage = this._curPage - 1;
+    if(newPage < 1) newPage = page_num;
+    pageTo(newPage);
+};
+
+Global.__nextPage = function(page_num) {
+    var newPage = this._curPage + 1;
+    if(newPage > page_num) newPage = 1;
+    pageTo(newPage);
 };
 
 Global._existsSearchResult = function(){
