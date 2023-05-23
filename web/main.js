@@ -231,7 +231,7 @@ Global.loadCSV = function(name, path='/', callback) {
 /**
  * 解析一行CSV字符串并返回数据数组 (允许英文逗号)
  * @param {string} str 一行CSV字符串
- * @returns 数据数组
+ * @returns {array} 数据数组
  */
 Global.parseCSVString = function(str) {
   var arr = str.split(',');
@@ -370,6 +370,22 @@ Array.prototype.clearRepetition = function() {
     };
     return temp_arr;
 };
+
+Array.prototype.getDuplication = function() {
+    var arr = this;
+    var temp_arr1 = [], temp_arr2 = [];
+    for(var i = 0; i < arr.length; i++){
+        var item = arr[i];
+        if(temp_arr1.indexOf(item) == -1) {
+            temp_arr1.push(item);
+        } else {
+            if(temp_arr2.indexOf(item) == -1) {
+                temp_arr2.push(item);
+            }
+        }
+    }
+    return temp_arr2;
+}
 
 Array.prototype.contains = function(val) {
     return this.indexOf(val) > -1;
