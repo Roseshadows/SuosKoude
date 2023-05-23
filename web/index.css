@@ -177,6 +177,10 @@ div.no-result{
     margin-left: 5px;
 }
 
+div.searching-symbol{
+    display: none;
+}
+
 span.selectable-tag{
     display: inline-block;
     border: 1px solid rgb(225, 225, 225);
