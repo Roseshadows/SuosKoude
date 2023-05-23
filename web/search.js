@@ -16,7 +16,19 @@ Global._onSearchStart = function() {
 };
 
 Global._processSearch = function() {
-
+    var that = this;
+    this.getTags((tags)=>{
+        // tag
+        var tag_list = that.convertTagStruct(tags);
+        var target_tags = that.getTagsForSearch(that._search_tags, tag_list);
+        var target_keywords = that._search_keywords.split(' ');
+        that.getArticles((articles)=>{
+            for(var i = 0; i < articles.length; i++){
+                var fitness = false;
+                
+            }
+        })
+    })
 };
 
 Global._onSearchEnd = function() {
@@ -103,12 +115,12 @@ Global._appendResult = function() {
 
 Global._generatePagination = function(page_num) {
     this._curPage = 1;
-    $('ul.pagination').append('<li><a href="javascript:Global.__prevPage('+page_num+')">«</a></li>');
+    $('ul.pagination').append('<li><a href="javascript:Global.__prevPage('+page_num+')">&laquo;</a></li>');
     for(var i = 0; i < page_num; i++) {
         var page = i + 1;
         $('ul.pagination').append('<li><a href="javascript:Global.__pageTo('+page+')">'+page+'</a></li>');
     }
-    $('ul.pagination').append('<li><a href="javascript:Global.__nextPage('+page_num+')">»</a></li>');
+    $('ul.pagination').append('<li><a href="javascript:Global.__nextPage('+page_num+')">&raquo;</a></li>');
 };
 
 Global.__pageTo = function(page) {
