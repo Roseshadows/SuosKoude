@@ -122,13 +122,13 @@ Global.__pageTo = function(page) {
 Global.__prevPage = function(page_num) {
     var newPage = this._curPage - 1;
     if(newPage < 1) newPage = page_num;
-    pageTo(newPage);
+    this.__pageTo(newPage);
 };
 
 Global.__nextPage = function(page_num) {
     var newPage = this._curPage + 1;
     if(newPage > page_num) newPage = 1;
-    pageTo(newPage);
+    this.__pageTo(newPage);
 };
 
 Global._existsSearchResult = function(){
