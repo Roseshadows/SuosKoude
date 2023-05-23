@@ -10,10 +10,10 @@
     <script src="/js/main.js"></script>
     <script>
         $('button').click(()=>{
-            if(!$('textarea').html().trim()) {
+            if(!$('textarea').val().trim()) {
                 $('div.result').html('请先输入数据。');
             } else {
-                var str = $('textarea').html().trim();
+                var str = $('textarea').val().trim();
                 var csv = str.split('\r');
                 var url_list = [];
                 csv.forEach((item)=>{
