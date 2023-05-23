@@ -179,6 +179,9 @@ div.no-result{
 
 div.searching-symbol{
     display: none;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 span.selectable-tag{
