@@ -139,7 +139,7 @@ Global._appendResult = function() {
             var p = Math.floor(index / columns_in_one_page) + 1;
             $('div#pg'+p).append('<div class="article-item"></div>')
         })
-        this._generatePagination(page_num);
+        if(page_num > 1) this._generatePagination(page_num);
     } else {
         $('div.no-result').css('display','block');
     }
