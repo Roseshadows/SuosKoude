@@ -16,6 +16,13 @@ $(document).ready(()=> {
             $("span.clear-text").css("visibility",'hidden');
         }
     });
+    $("a.random-article").click(()=>{
+        Global.getArticles((articles)=>{
+            var index = Math.floor(Math.random() * articles.length);
+            var article = articles[index];
+            window.open('/article/'+article.url_title+'/');
+        })
+    });
     $('span.tags-list-btn').click(()=>{
         Global.getTags((tags)=>{
             tags = Global.convertTagStruct(tags);
@@ -41,7 +48,7 @@ $(document).ready(()=> {
                     submit: {
                         text: '确认',
                         action: function () {
-                            if(Global.__temp_tags && JSON.stringify(Global.__temp_tags) != '[]') {
+                            if(Global.__temp_tags) {
                                 Global._search_tags = Global._search_tags || [];
                                 Global._search_tags = Global.__temp_tags.clearRepetition();
                                 $('span.tags-input-area').html('');
