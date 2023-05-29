@@ -380,7 +380,14 @@ $(document).ready(()=>{
         $("div.menu-icon i").toggleClass("fa-bars")
         $("div.menu-icon i").toggleClass("fa-close")
     });
-
+    
+    // 跳转到最后阅读的文章
+    $('.last-read-book').click(()=>{
+        var url = Global.getLastReadBook();
+        if(url) Global.goToArticle(url);
+    });
+    
+    // 未启用 Javascript 时警告
     $("div.no-js-warning").css('display','none');
 });
 
