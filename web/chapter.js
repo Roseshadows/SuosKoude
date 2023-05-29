@@ -489,7 +489,31 @@ $(document).ready(()=>{
         })
     });
     
+    // 上下章
     Global.getChapters(curArticle, (chapters)=>{
-    
+        var index = 0;
+        chapters.forEach((item, i)=>{
+            if(item.url_name == curChapter) index = i;
+        })
+        if(index == 0) {
+            $('div.prev-chapter span').html('返回主页');
+            $('div.prev-chapter').click(()=>{
+                Global.goToArticle(curArticle);
+            });
+        } else {
+            $('div.prev-chapter').click(()=>{
+                Global.goToChapter(curArticle, chapters[index-1].url_name);
+            });
+        }
+        if(index == chapters.length) {
+            $('div.next-chapter span').html('返回主页');
+            $('div.next-chapter').click(()=>{
+                Global.goToArticle(curArticle);
+            });
+        } else {
+            $('div.next-chapter').click(()=>{
+                Global.goToChapter(curArticle, chapters[index+1].url_name);
+            });
+        }
     })
 });
