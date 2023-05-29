@@ -487,5 +487,9 @@ $(document).ready(()=>{
                 else Global.goToArticle(curChapter);
             })
         })
+    });
+    
+    Global.getChapters(curArticle, (chapters)=>{
+    
     })
 });
