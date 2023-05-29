@@ -286,14 +286,14 @@ Global.getArticles = function(callback) {
                     }
                 })(),
                 tags: article[6].replace('&',',') || ds.tags,
-                subject: article[7] || ds.subject,
-                roles: article[8] || ds.roles,
-                status: article[9] || ds.status || '-',
-                ending: article[10] || ds.ending || '-',
-                is_yuhuang_only: !article[11] ? ds.is_yuhuang_only : (article[12] == 'T' ? true : false),
-                is_yuhuangyu: !article[12] ? ds.is_yuhuangyu : (article[13] == 'T' ? true : false),
-                accessable_links: article[13] || ds.accessable_links || '',
-                is_redistributable: !article[14] ? ds.is_redistributable : (article[15] == 'T' ? true : false)
+                // subject: article[7] || ds.subject,
+                roles: article[7] || ds.roles,
+                status: article[8] || ds.status || '-',
+                ending: article[9] || ds.ending || '-',
+                is_yuhuang_only: !article[10] ? ds.is_yuhuang_only : (article[10] == 'T' ? true : false),
+                is_yuhuangyu: !article[11] ? ds.is_yuhuangyu : (article[11] == 'T' ? true : false),
+                accessable_links: article[12] || ds.accessable_links || '',
+                is_redistributable: !article[13] ? ds.is_redistributable : (article[13] == 'T' ? true : false)
             })
         }
         if(callback) callback(articles);
@@ -337,6 +337,34 @@ Global.getTags = function(callback){
     $.getJSON('/data/tags.json', (data)=>{
         if(callback) callback(data);
     })
+}
+
+/**
+ * 跳转到指定文章的主页
+ * @param {string} url_title 文章的 url 标题
+ */
+Global.goToArticle = function(url_title){
+    window.location.assign('/article/'+url_title+'/');
+    Global.setLastReadBook(url_title);
+}
+
+/**
+ * 跳转到指定文章的全文页面
+ * @param {string} url_title 文章的 url 标题
+ */
+Global.goToWholeChapter = function(url_title){
+    window.location.assign('/article/'+url_title+'/whole/');
+    Global.setLastReadBook(url_title);
+}
+
+/**
+ * 跳转到指定文章的指定章节
+ * @param {string} url_title 文章的 url 标题
+ * @param {string} url_name 章节的 url 标题
+ */
+Global.goToChapter = function(url_title, url_name){
+    window.location.assign('/article/'+url_title+'/'+url_name+'/');
+    Global.setLastReadBook(url_title);
 }
 
 $(document).ready(()=>{

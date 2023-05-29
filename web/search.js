@@ -5,8 +5,7 @@ var Global = Global || {};
 Global.search = function(){
     this._onSearchStart();
     this._processSearch();
-    this._onSearchEnd();
-    console.log(JSON.stringify(this._search_target_url))
+    // this._onSearchEnd(); // 放到this._processSearch() 里了，因为必须实现 ajax 同步处理
 }
 
 Global._onSearchStart = function() {
@@ -20,7 +19,7 @@ Global._onSearchStart = function() {
 
 Global._processSearch = function() {
     var that = this;
-    // 必须异步处理，否则接收不到 this._search_target_url，但暂时不知道该怎么办
+    // 必须同步处理，否则接收不到 this._search_target_url
     this.getTags((tags)=>{
         var tag_list = that.convertTagStruct(tags); // tag
         var target_tags = that.getTagsForSearch(that._search_tags, tag_list);
@@ -29,11 +28,13 @@ Global._processSearch = function() {
             for(var i = 0; i < articles.length; i++){
                 var a = articles[i];
                 var fitness = true;
+                var f = 0;
                 target_keywords.forEach((k)=>{
-                    if(a.title.toLowerCase().includes(k.toLowerCase())) fitness = true;
-                    if(a.tags.toLowerCase().includes(k.toLowerCase())) fitness = true;
-                    if(a.summary.toLowerCase().includes(k.toLowerCase())) fitness = true;
+                    if(a.title.toLowerCase().includes(k.toLowerCase())) f++;
+                    if(a.tags.toLowerCase().includes(k.toLowerCase())) f++;
+                    if(a.summary.toLowerCase().includes(k.toLowerCase())) f++;
                 });
+                if(!f && target_keywords.length > 0) fitness = false;
                 target_tags.forEach((tag)=>{
                     if(!a.tags.toLowerCase().includes(tag.toLowerCase())) fitness = false;
                 });
@@ -48,6 +49,7 @@ Global._processSearch = function() {
                 
                 if(fitness) that._search_target_url.push(a.url_title);
             }
+            that._onSearchEnd();
         })
     });
 };
@@ -78,7 +80,7 @@ Global._loadClientSearchConditions = function(){
     this._search_keywords = search_text.includes(' ') ? search_text.split(' ') : (search_text ? [search_text] : []);
     this._search_author = $('li.author input').val();
     // this._search_subject = $('li.type input').val();
-    this._search_role = [$('li.role input.role-yu').val(),$('li.role input.role-huang').val()];
+    this._search_role = [$('li.role input.role-yu').val(), $('li.role input.role-huang').val()];
     var type = $('#settings-length').find("option:selected").val();
     this._search_type = (function(){
         switch(type) {
@@ -119,6 +121,7 @@ Global._clearPrevResult = function() {
     $('div.result-pages').html('');
     $('ul.pagination').html('');
     $('ul.pagination').css('display','none');
+    // $(".search-result-area").css("margin-bottom",'0')
 };
 
 Global._showVisualSearchSymbol = function() {
@@ -132,14 +135,14 @@ Global._hideVisualSearchSymbol = function() {
 Global._appendResult = function() {
     if(this._existsSearchResult()) {
         var columns_in_one_page = 10;
-        var page_num = Math.floor(this._search_target_url / columns_in_one_page);
+        var page_num = Math.floor(this._search_target_url.length / columns_in_one_page) + 1;
         for(var i = 0; i < page_num; i++) {
             var p = i + 1;
             $('div.result-pages').append('<div id="pg'+p+'"></div>');
         }
         this._search_target_url.forEach((item, index)=>{
             var p = Math.floor(index / columns_in_one_page) + 1;
-            $('div#pg'+p).append('<div class="article-item"></div>')
+            $('div#pg'+p).append('<div class="article-item">'+item+'</div>')
         })
         if(page_num > 1) this._generatePagination(page_num);
     } else {
@@ -150,19 +153,22 @@ Global._appendResult = function() {
 Global._generatePagination = function(page_num) {
     $('ul.pagination').css('display','block');
     this._curPage = 1;
+    if($("div#pg"+page_num).html()=='') page_num -= 1;
     $('ul.pagination').append('<li><a href="javascript:Global.__prevPage('+page_num+')">&laquo;</a></li>');
     for(var i = 0; i < page_num; i++) {
         var page = i + 1;
         $('ul.pagination').append('<li><a href="javascript:Global.__pageTo('+page+')">'+page+'</a></li>');
     }
     $('ul.pagination').append('<li><a href="javascript:Global.__nextPage('+page_num+')">&raquo;</a></li>');
+    $("ul.pagination li:nth-of-type(2)").addClass('active');
+    // $(".search-result-area").css("margin-bottom",'60px')
 };
 
 Global.__pageTo = function(page) {
-    $('div.pages div').css('display','none');
-    $('div.pages div#pg'+page).css('display','block');
-    $('ul li').removeClass('active');
-    $('ul li').eq(page).addClass('active');
+    $('div.result-pages>div').css('display','none');
+    $('div.result-pages>div#pg'+page).css('display','block');
+    $('ul.pagination li').removeClass('active');
+    $('ul.pagination li').eq(page).addClass('active');
     this._curPage = page;
 };
 

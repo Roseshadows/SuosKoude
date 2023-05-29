@@ -423,7 +423,7 @@ $(document).ready(()=>{
 
     // 返回至文章主页
     $("a.return-mainpage").click(()=>{
-        window.location.href = (link + '/article/' + curArticle + '/')/*+"mainpage.html"*/;
+        Global.goToArticle(curArticle);
     });
 
     // (已弃用)双击段落，实现标签功能。再次双击注册有标签的段落时，标签会取消。
@@ -483,8 +483,8 @@ $(document).ready(()=>{
                 if(item.url_name == curChapter) {
                     next_chapter_url_name = data[index+1].url_name || "";
                 }
-                if(next_chapter_url_name) window.location.href = curLocation.replace(curChapter+".html","")+next_chapter_url_name+".html";
-                else window.location.href = curLocation.replace(curChapter+".html","")/*+"mainpage.html"*/;
+                if(next_chapter_url_name) Global.goToChapter(curArticle, next_chapter_url_name);
+                else Global.goToArticle(curChapter);
             })
         })
     })

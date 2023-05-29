@@ -29,7 +29,7 @@ $(document).ready(()=> {
                 })
                 if(!is_banned) fitness = true;
             }
-            window.open('/article/'+article.url_title+'/');
+            Global.goToArticle(article.url_title);
         })
     });
     $('.search-executor').click(()=>{
