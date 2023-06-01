@@ -12,7 +12,7 @@
  * 注意：该插件需要 TTK_SwipeMove.js 作为前置插件。
  * 请将 TTK_SwipeMove.js 放在该插件之上。
  * 
- * @param speed
+ * @param Speed
  * @text 滚动速度
  * @desc 文本的滚动速度。默认是1。
  * @default 1
@@ -25,7 +25,7 @@ RSSD.SSIB_TS = {};
 
 (function() {
     var parameters = PluginManager.parameters(pluginName);
-    $.speed = +parameters.speed || 1;
+    $.speed = +parameters['Speed'] || 1;
     if(Imported.RSSD_SimpleScrollableInfoBoard && Imported.TTK_SwipeMove) {
         $.vId = RSSD.SimpleScrollableInfoBoard.switchId;
         var _TouchInput_clear = TouchInput.clear;
@@ -42,12 +42,12 @@ RSSD.SSIB_TS = {};
             if(this._boardMoveY > 0) {
                 if (this._boardMoveY > 0 && $gameMap && SceneManager._scene._scrollTextWindow.isOpenAndActive()) {
                     SceneManager._scene._scrollTextWindow.origin.y -= this._boardMoveY;
-					this._boardMoveY = (this._boardMoveY - this._storBoardForceY < 0) ? (0) : (this._boardMoveY - this._storBoardForceY);
-				}
-				if (this._boardMoveY < 0 && $gameMap && SceneManager._scene._scrollTextWindow.isOpenAndActive()) {
+                    this._boardMoveY = (this._boardMoveY - this._storBoardForceY < 0) ? (0) : (this._boardMoveY - this._storBoardForceY);
+		}
+		if (this._boardMoveY < 0 && $gameMap && SceneManager._scene._scrollTextWindow.isOpenAndActive()) {
                     SceneManager._scene._scrollTextWindow.origin.y -= this._boardMoveY;
-					this._boardMoveY = (this._boardMoveY - this._storBoardForceY > 0) ? (0) : (this._boardMoveY - this._storBoardForceY);
-				}
+                    this._boardMoveY = (this._boardMoveY - this._storBoardForceY > 0) ? (0) : (this._boardMoveY - this._storBoardForceY);
+		}
             }
         }
         
@@ -85,6 +85,8 @@ RSSD.SSIB_TS = {};
                 }
             }
         };
+	
+        Window_SrollText.prototype.isClicked = function() {}
     } else {
         console.log('插件'+pluginName+'.js 未检测到前置插件。请去看看是缺少插件还是顺序不对!');
     }
