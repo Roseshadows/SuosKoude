@@ -24,9 +24,9 @@ RSSD.SSIB_TS = {};
         var _TouchInput_clear = TouchInput.clear;
         TouchInput.clear = function() {
             _TouchInput_clear.call(this);
+            this._boardOriginY = 0;
             this._storeForceY = 0;
             this._boardMoveY = 0;
-            this._boardOriginY = 0;
         }
         var _TouchInput_update = TouchInput.update;
         TouchInput.update = function() {
