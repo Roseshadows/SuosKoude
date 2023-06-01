@@ -77,16 +77,28 @@ RSSD.SSIB_TS = {};
         Window_ScrollText.prototype.update = function() {
             _Window_ScrollText_update.call(this);
             if($.vId && $gameVariables.value($.vId)) {
-                if (TouchInput.isMoved() && $.enabled) {
-                    var newX = ((TouchInput._lastCameraX - TouchInput.x) / 48) * $.speed;
-                    var newY = ((TouchInput._lastCameraY - TouchInput.y) / 48) * $.speed;
-                    if (newX) $gameMap._displayX += Math.min(newX, $.distanceLimit);
-                    if (newY) $gameMap._displayY += Math.min(newY, $.distanceLimit);
+                if (this.isClicked() && TouchInput.isMoved()) {
+                    var newY = (TouchInput._boardLastY - TouchInput.y) * $.speed;
+                    if (newY) this.origin.y -= newY;
                 }
+                if(TouchInput.isMoved() || TouchInput._boardMoveY) {
+	            if(!this.canScrollDown()) {
+			var visibleArea = this.windowHeight() - 2 * this.padding;
+		        this.origin.y = this.contents.height - visibleArea;
+                        TouchInput._boardMoveY = 0;
+                        TouchInput._storBoardForceY = 0;
+		    } else if(!this.canScrollUp()){
+		        this.origin.y = 0;
+			TouchInput._boardMoveY = 0;
+                        TouchInput._storBoardForceY = 0;
+		    }
+	        }
             }
         };
 	
-        Window_SrollText.prototype.isClicked = function() {}
+        Window_SrollText.prototype.isClicked = function() {
+            return (TouchInput.x - (this.x + this.padding)) > 0 && (TouchInput.y - (this.y + this.padding)) > 0;
+	};
     } else {
         console.log('插件'+pluginName+'.js 未检测到前置插件。请去看看是缺少插件还是顺序不对!');
     }
