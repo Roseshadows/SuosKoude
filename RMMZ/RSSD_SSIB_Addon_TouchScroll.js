@@ -78,7 +78,7 @@ RSSD.SSIB_TS = {};
         Window_ScrollText.prototype.update = function() {
             _Window_ScrollText_update.call(this);
             if($.vId && $gameVariables.value($.vId)) {
-                if (this.isClicked() && TouchInput.isMoved()) {
+                if (this.isTouched() && TouchInput.isMoved()) {
                     var newY = (TouchInput._boardLastY - TouchInput.y) * $.speed;
                     if (newY) this.origin.y -= newY;
                 }
@@ -97,7 +97,7 @@ RSSD.SSIB_TS = {};
             }
         };
 	
-        Window_SrollText.prototype.isClicked = function() {
+        Window_SrollText.prototype.isTouched = function() {
             return (TouchInput.x - (this.x + this.padding)) > 0 && (TouchInput.y - (this.y + this.padding)) > 0;
 	};
     } else {
