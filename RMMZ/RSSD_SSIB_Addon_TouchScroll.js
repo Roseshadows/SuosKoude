@@ -23,11 +23,12 @@ Imported[pluginName] = true;
 var RSSD = RSSD || {};
 RSSD.SSIB_TS = {};
 
-(function() {
+(function($) {
     var parameters = PluginManager.parameters(pluginName);
     $.speed = +parameters['Speed'] || 1;
     if(Imported.RSSD_SimpleScrollableInfoBoard && Imported.TTK_SwipeMove) {
         $.vId = RSSD.SimpleScrollableInfoBoard.switchId;
+	    
         var _TouchInput_clear = TouchInput.clear;
         TouchInput.clear = function() {
             _TouchInput_clear.call(this);
