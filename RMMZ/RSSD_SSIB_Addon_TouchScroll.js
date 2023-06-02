@@ -98,7 +98,8 @@ RSSD.SSIB_TS = {};
         };
 	
         Window_ScrollText.prototype.isTouched = function() {
-            return (TouchInput.x - (this.x + this.padding)) > 0 && (TouchInput.y - (this.y + this.padding)) > 0;
+            return (TouchInput.x - (this.x + this.padding)) > 0 && (TouchInput.y - (this.y + this.padding)) > 0
+                && (TouchInput.x - (this.x + this.windowWidth() - this.padding)) < 0 && (TouchInput.y - (this.y + this.windowHeight() - this.padding)) < 0;
 	};
     } else {
         console.log('插件'+pluginName+'.js 未检测到前置插件。请去看看是缺少插件还是顺序不对!');
