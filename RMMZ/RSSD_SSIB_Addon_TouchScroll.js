@@ -4,9 +4,9 @@
 /*:
  * @plugindesc ver0.1 - 简易可滚动信息板 - 扩展 - 惯性触摸滑动
  * @author 离影玫 | Rose_shadows
- * @target MV
+ * @target MZ MV
  * @orderAfter TTK_SwipeMove
- * @orderAfter RSSD_SimpleSrollableInfoBoard
+ * @orderAfter RSSD_SimpleScrollableInfoBoard
  * @url https://github.com/Roseshadows
  * @help 使用该扩展插件，你可以用手指或鼠标来滑动信息板上的内容。
  * 注意：该插件需要 TTK_SwipeMove.js 作为前置插件。
@@ -16,6 +16,11 @@
  * @text 滚动速度
  * @desc 文本的滚动速度。默认是1。
  * @default 1
+ * 
+ * @param Inertia
+ * @text 惯性
+ * @desc 松开手指之后信息继续滑动时的惯性。是一个0到1间的小数或分数，数字越小，惯性越大。若不想使用惯性，请写 1。
+ * @default 1/48
  */
 var Imported = Imported || {};
 var pluginName = 'RSSD_SSIB_Addon_TouchScroll';
@@ -26,6 +31,7 @@ RSSD.SSIB_TS = {};
 (function($) {
     var parameters = PluginManager.parameters(pluginName);
     $.speed = +parameters['Speed'] || 1;
+    $.inertia = parseFloat(parameters['Inertia']) || 1/48;
     if(Imported.RSSD_SimpleScrollableInfoBoard && Imported.TTK_SwipeMove) {
         $.vId = RSSD.SimpleScrollableInfoBoard.switchId;
 	    
@@ -71,7 +77,7 @@ RSSD.SSIB_TS = {};
         TouchInput._onRelease = function(x, y) {
             _TouchInput_onRelease.call(this, x, y);
             this._boardMoveY = this._forceY;
-            this._storBoardForceY = this._forceY / 48;
+            this._storBoardForceY = this._forceY * $.inertia;
         };
         
         var _Window_ScrollText_update = Window_ScrollText.prototype.update;
