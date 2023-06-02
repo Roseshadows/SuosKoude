@@ -82,7 +82,7 @@ RSSD.SSIB_TS = {};
                     var newY = (TouchInput._boardLastY - TouchInput.y) * $.speed;
                     if (newY) this.origin.y -= newY;
                 }
-                if(TouchInput.isMoved() || TouchInput._boardMoveY) {
+                if (this.isTouched() && (TouchInput.isMoved() || TouchInput._boardMoveY)) {
 	            if(!this.canScrollDown()) {
 			var visibleArea = this.windowHeight() - 2 * this.padding;
 		        this.origin.y = this.contents.height - visibleArea;
