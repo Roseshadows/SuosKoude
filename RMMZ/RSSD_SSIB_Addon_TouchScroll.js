@@ -97,7 +97,7 @@ RSSD.SSIB_TS = {};
             }
         };
 	
-        Window_SrollText.prototype.isTouched = function() {
+        Window_ScrollText.prototype.isTouched = function() {
             return (TouchInput.x - (this.x + this.padding)) > 0 && (TouchInput.y - (this.y + this.padding)) > 0;
 	};
     } else {
